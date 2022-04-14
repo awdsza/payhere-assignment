@@ -1,7 +1,7 @@
 import React, {useState,useEffect} from "react";
 import {selectIssues,selectIssueCount} from '../../api/api.js';
 
-import Pager from '../Pager';
+import Pager from '../common/Pager';
 function IssueList({owner,repo}){
     const [issues,setIssues]=useState([]);
     const [pager,setPager]=useState({});
