@@ -16,7 +16,7 @@ const searchRepository = (keyword)=>{
     }
 }
 const selectIssues = async (owner,repo,page=1,per_page=10)=>{
-    const END_POINT = `/repos/${owner}/${repo}/issues?per_page=${per_page}&page=${page}`;
+    const END_POINT = `repos/${owner}/${repo}/issues?per_page=${per_page}&page=${page}`;
     try{
         return REQUEST(`${END_POINT}`);
     }catch(e){
@@ -24,7 +24,7 @@ const selectIssues = async (owner,repo,page=1,per_page=10)=>{
     }
 }
 const selectIssueCount = async (owner,repo)=>{
-    const full_name = `${encodeURIComponent(owner / repo)}`
+    const full_name = encodeURIComponent(`${owner}/${repo}`);
     
     const END_POINT = `search/issues?q=repo:${full_name}+type:issue`;
 
