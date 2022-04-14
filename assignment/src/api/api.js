@@ -15,13 +15,19 @@ const searchRepository = (keyword)=>{
         console.error(e);
     }
 }
-const selectIssues = (owner,repo,{per_page=10,page=1})=>{
-    const END_POINT = `/repos/${owner}/${repo}/issues?per_page=${per_page}&page=${page}`;
+const selectIssues = async (owner,repo,page=1,per_page=10)=>{
+    
     try{
-        return REQUEST(`${END_POINT}`);
+        return  await REQUEST(`${END_POINT}`);
     }catch(e){
         console.error(e);
     }
 }
+const selectIssueCount = async (owner,repo)=>{
+    const full_name = `${encodeURIComponent(owner / repo)}`
+    
+    const END_POINT = `search/issues?q=repo:${full_name}+type:issue`;
 
-export {searchRepository,selectIssues};
+    return await REQUEST(`${END_POINT}`);
+}
+export {searchRepository,selectIssues,selectIssueCount};
