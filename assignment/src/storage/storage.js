@@ -1,30 +1,31 @@
-const getSelectedRepo = (key) =>{
+const KEY = 'selectRepo';
+const getSelectedRepo = () =>{
     try{
-        return JSON.parse(localStorage.getItem(key) || '[]');
+        return JSON.parse(localStorage.getItem(KEY) || '[]');
     }catch(e){
         console.error(e);
         alert(e);
     }
 }
 
-const setSelectedRepo= (key,item) => {
-    localStorage.setItem(key,JSON.stringify(item));
+const setSelectedRepo= (item) => {
+    localStorage.setItem(KEY,JSON.stringify(item));
 };
 
 
-const deleteSelectedRepo = (key,id)=>{
+const deleteSelectedRepo = (id)=>{
     try{
-        const repositories = getSelectedRepo(key);
+        const repositories = getSelectedRepo();
         const spareRepositories = repositories.filter(({_id})=> _id === id );
-        setSelectedRepo(key,spareRepositories);
+        setSelectedRepo(spareRepositories);
     }catch(e){
         console.error(e);
         alert(e);
     }
 }
 
-const countSelectedRepo = (key) => {
-    return getSelectedRepo(key).length;
+const countSelectedRepo = () => {
+    return getSelectedRepo().length;
 }
 
 export {getSelectedRepo,setSelectedRepo,deleteSelectedRepo,countSelectedRepo};
