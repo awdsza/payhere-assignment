@@ -1,5 +1,5 @@
 import React from "react";
-import {setSelectedRepo,countSelectedRepo} from '../../storage/storage.js';
+import {setSelectedRepo,countSelectedRepo,getSelectedRepo} from '../../storage/storage.js';
 import {ADD_REPOSITORY_LIMIT} from '../../utils/constants.js';
 import {ADD_REPOSITORY_LIMIT_WARN} from '../../utils/keywords.js';
 
@@ -8,12 +8,16 @@ import Pager from '../common/Pager';
 function SearchRepositoriesList({repositories,pager,onClickPage}){
     
     
-    const addRepoClick=(repo)=>{
+    const addRepoClick=repo=>{
             if(countSelectedRepo() === ADD_REPOSITORY_LIMIT){
                 alert(ADD_REPOSITORY_LIMIT_WARN);
                 return;
             }
-            setSelectedRepo(repo);
+
+            const selectedRepo = getSelectedRepo();
+            selectedRepo.push(repo);
+    
+            setSelectedRepo(selectedRepo);
         
     }
 
