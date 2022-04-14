@@ -16,9 +16,9 @@ const searchRepository = (keyword)=>{
     }
 }
 const selectIssues = async (owner,repo,page=1,per_page=10)=>{
-    
+    const END_POINT = `/repos/${owner}/${repo}/issues?per_page=${per_page}&page=${page}`;
     try{
-        return  await REQUEST(`${END_POINT}`);
+        return REQUEST(`${END_POINT}`);
     }catch(e){
         console.error(e);
     }
