@@ -16,7 +16,7 @@ const setSelectedRepo= (item) => {
 const deleteSelectedRepo = (id)=>{
     try{
         const repositories = getSelectedRepo();
-        const spareRepositories = repositories.filter(({_id})=> _id !== id );
+        const spareRepositories = repositories.filter(({id:_id})=> _id !== id );
         setSelectedRepo(spareRepositories);
     }catch(e){
         console.error(e);
