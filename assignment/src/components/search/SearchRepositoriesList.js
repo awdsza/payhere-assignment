@@ -24,8 +24,8 @@ function SearchRepositoriesList({repositories,pager,onClickPage}){
         :
         <ul>
             {
-                repositories.map( ({name,full_name,id,node_id,owner,html_url }) => 
-                <li data-id={id} data-node-id={node_id}  key={id}>{name} | {full_name}<button onClick={()=>addRepoClick({id,name,full_name})}>추가</button></li> 
+                repositories.map( ({name,full_name,id}) => 
+                <li key={id}>{name} | {full_name}<button onClick={()=>addRepoClick({id,name,full_name})}>추가</button></li> 
                 )
             }
         </ul>

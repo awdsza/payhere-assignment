@@ -13,8 +13,15 @@ function SearchRepository(){
     const onKeywordInput = ({target})=>{
         clearTimeout(onInputTimeout);
         onInputTimeout=setTimeout( async ()=>{
-
+            
             const {value} = target;
+            if(!value){
+                setRepositories([]);
+                setPager({
+                    total_count:0,
+                    currentPage:1
+                });
+            }
             setKeyword(value);
             const {items,total_count} = await searchRepository(value);
             setRepositories(items);
