@@ -29,6 +29,7 @@ function RepositoryIssue(){
         deleteSelectedRepo(id);
         setSelectRepoList(getSelectedRepo());
     }
+    
     return (
         <>
         {
