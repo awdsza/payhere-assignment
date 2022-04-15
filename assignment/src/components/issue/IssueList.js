@@ -1,23 +1,41 @@
 import React, {useState,useEffect} from "react";
-import {selectIssues,selectIssueCount} from '../../api/api.js';
+import {selectIssues} from '../../api/api.js';
 
 import Pager from '../common/Pager';
 function IssueList({owner,repo}){
     const [issues,setIssues]=useState([]);
     const [pager,setPager]=useState({});
+    const [searchParam,setSearchParam]=useState({});
+    
+    
+
     useEffect( () => {
         async function fetchData(){
             
-            setIssues(await selectIssues(owner,repo,1));
-            setPager(await selectIssueCount(owner,repo));
+            const {items,total_count} = await selectIssues(owner,repo,1);
+            setIssues(items);
+            setPager({
+                total_count,
+                currentPage:1
+            });
+
         }
         if(owner && repo){
+            setSearchParam({owner,repo});
             fetchData();
         }
         return ()=>{
         }
     }, [owner,repo] )
-    
+    const onClickPage = async currentPage=>{
+        const {owner,repo} = searchParam;
+        const {items,total_count} = await selectIssues(owner,repo,currentPage);
+        setIssues(items);
+        setPager({
+            total_count,
+            currentPage:currentPage
+        });
+    }
     return (
         <section>
         {
@@ -25,7 +43,7 @@ function IssueList({owner,repo}){
             : <ul>
             { 
                 issues.map( (issue) => 
-                <li>
+                <li key={issue.id}>
                     [{repo}]
                     <dl>
                         <dt>
@@ -45,7 +63,7 @@ function IssueList({owner,repo}){
         }
         <Pager
         pager={pager}
-        pageClick={(page)=>console.log(page)}
+        pageClick={(page)=>onClickPage(page)}
         />    
         </section>
         

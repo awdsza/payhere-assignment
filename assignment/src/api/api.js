@@ -17,17 +17,11 @@ const searchRepository = async (keyword,page=1,per_page=10)=>{
 }
 const selectIssues = async (owner,repo,page=1,per_page=10)=>{
     try{
-        return REQUEST(`repos/${owner}/${repo}/issues?per_page=${per_page}&page=${page}`);
-    }catch(e){
-        console.error(e);
-    }
-}
-const selectIssueCount = async (owner,repo)=>{
-    try{
         const full_name = encodeURIComponent(`${owner}/${repo}`);
-        return await REQUEST(`search/issues?q=repo:${full_name}+type:issue`);
+        return REQUEST(`search/issues?q=repo:${full_name}+type:issue&per_page=${per_page}&page=${page}`);
     }catch(e){
         console.error(e);
     }
 }
-export {searchRepository,selectIssues,selectIssueCount};
+
+export {searchRepository,selectIssues};

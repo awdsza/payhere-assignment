@@ -23,7 +23,8 @@ function Pager({pager,pageClick,pageSize=10}){
                         <a  onClick={ ()=>pageClick(page) } >{page}</a>    
                     </li>)
                 }
-                <li onClick={()=>pageClick(lastPage+1)}> next </li>
+                { lastPage+1 < totalPage ? <li onClick={()=>pageClick(lastPage+1)}> next </li> : null }
+                
             </ul>
             }
         </>
