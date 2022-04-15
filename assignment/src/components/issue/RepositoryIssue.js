@@ -24,6 +24,10 @@ function RepositoryIssue(){
 
     const selectedRepoClick = full_name=>{
         const [owner,repo] = full_name.split('/');
+        setRepoInfo({
+            owner,
+            repo
+        })
     }
     const selectedRepoDelete = id=>{
         deleteSelectedRepo(id);
