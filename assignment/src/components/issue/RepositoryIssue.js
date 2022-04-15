@@ -17,7 +17,6 @@ function RepositoryIssue(){
             owner,repo
         })
         return ()=> {
-            console.log('완료');
         }
     },[]);
 
@@ -25,7 +24,6 @@ function RepositoryIssue(){
 
     const selectedRepoClick = full_name=>{
         const [owner,repo] = full_name.split('/');
-        console.log(`owner=${owner}, repo=${repo}`);
     }
     const selectedRepoDelete = id=>{
         deleteSelectedRepo(id);

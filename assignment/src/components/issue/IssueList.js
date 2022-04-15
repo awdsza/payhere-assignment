@@ -10,20 +10,14 @@ function IssueList({owner,repo}){
             
             setIssues(await selectIssues(owner,repo,1));
             setPager(await selectIssueCount(owner,repo));
-            console.log(pager);
         }
         if(owner && repo){
             fetchData();
         }
         return ()=>{
-            console.log('clear');
         }
     }, [owner,repo] )
     
-    
-    console.log(issues);
-
-
     return (
         <section>
         {
