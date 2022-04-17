@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {fetchRepository} from '../../api/api.js';
 import { TextField } from "@mui/material";
 import SearchRepositoriesList from './SearchRepositoriesList.js';
-import Sample from '../../sample.json';
+import Sample from '../../jsons/sample.json';
 function SearchRepository(){
     const [repositories,setRepositories] = useState([]);
     const [pager, setPager]=useState({

@@ -10,6 +10,7 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Button } from "@mui/material";
+import Link from '@mui/material/Link';
 
 export default function TableComp({header=[],list=[] ,pager={ count:1, page:1, rowsPerPage:10},pageClick}) {
   const [page, setPage] = React.useState(0);
@@ -36,10 +37,14 @@ export default function TableComp({header=[],list=[] ,pager={ count:1, page:1, r
     pageClick(0,perPage);
   };
   const setHTML = (header,rowData)=>{
+    const {props}=header;
     switch(header.type){
+      case 'link':
+        return (<Link 
+          component="button" 
+          onClick={()=>window.open(rowData[header.paramName])}> {props.text} </Link>)    
       case 'button':
       default:
-        const {props}=header;
         return (<Button color={!props.color ? 'primary' : props.color} variant="contained" onClick={()=>props.onClick(rowData)}>{props.text}</Button>)
     }
   }
@@ -61,7 +66,7 @@ export default function TableComp({header=[],list=[] ,pager={ count:1, page:1, r
                 header.map(
                   (h,idx)=>
                   <TableCell key={idx}>
-                  {!h.type ? item[h.paramName]: setHTML(h,{item})}
+                  {!h.type ? item[h.paramName]: setHTML(h,{...item})}
                   </TableCell>
                 )
               }   

@@ -1,72 +1,80 @@
 import React, {useState,useEffect} from "react";
-import {selectIssues} from '../../api/api.js';
+import {fetchIssues} from '../../api/api.js';
 
-import Pager from '../common/Pager';
+import TableComp from '../common/TableComp';
+
+import IssueSample from '../../jsons/IssueSample.json';
+
 function IssueList({owner,repo}){
     const [issues,setIssues]=useState([]);
-    const [pager,setPager]=useState({});
+    const [pager,setPager]=useState({
+        count:0,
+        page:0,
+        rowsPerPage:10
+    });
     const [searchParam,setSearchParam]=useState({});
     
     
+    const searchIssues = async (owner,repo,page=0,rowsPerPage=10)=>{
+        const {items,total_count} = await fetchIssues(owner,repo,page+1,rowsPerPage);
+        // const {items,total_count} = IssueSample;
+            setIssues(items.map((item)=>{return {
+                    ...item,
+                    login:item.user.login
+                };
+            }));
+            setPager({
+                count:total_count,
+                page,
+                rowsPerPage
+            });
+    };
 
     useEffect( () => {
-        async function fetchData(){
-            
-            const {items,total_count} = await selectIssues(owner,repo,1);
-            setIssues(items);
-            setPager({
-                total_count,
-                currentPage:1
-            });
-
-        }
         if(owner && repo){
             setSearchParam({owner,repo});
-            fetchData();
+            searchIssues(owner,repo,pager.page,pager.rowsPerPage);
         }
         return ()=>{
         }
-    }, [owner,repo] )
-    const onClickPage = async currentPage=>{
+    }, [owner,repo,pager] );
+
+    const onClickPage = async (currentPage,rowsPerPage)=>{
         const {owner,repo} = searchParam;
-        const {items,total_count} = await selectIssues(owner,repo,currentPage);
-        setIssues(items);
-        setPager({
-            total_count,
-            currentPage:currentPage
-        });
+        searchIssues(owner,repo,currentPage,rowsPerPage)
     }
-    return (
-        <section>
-        {
-            issues.length === 0 ? <p>해당 RepositoryIssue가 없습니다</p>
-            : <ul>
-            { 
-                issues.map( (issue) => 
-                <li key={issue.id}>
-                    [{repo}]
-                    <dl>
-                        <dt>
-                            <a href={issue.html_url} target='_blank'>{issue.title}</a>
-                        </dt>
-                        <dd>
-                            {/* #430 opened on 13 Mar by zhoufanglu */}
-                            {/* #426 by ugurcanalyuz was closed on 11 Feb */}
-                            
-                            {issue.user.login} was {issue.state}ed by {issue.updated_at}
-                            댓글 : {issue.comments}
-                        </dd>
-                    </dl>
-                </li>) 
-            }
-            </ul>
+
+    const header = [
+    {
+        title:'Issue 번호',
+        paramName:'number'
+    },{
+        title:'제목',
+        paramName:'title'
+    },{
+        title:'작성자',
+        paramName:'login'
+    },{
+        title:'작성일자',
+        paramName:'updated_at'
+    },{
+        title:'Issue상세',
+        paramName:'html_url',
+        type:'link',
+        props:{
+            text:'클릭'
         }
-        <Pager
-        pager={pager}
-        pageClick={(page)=>onClickPage(page)}
-        />    
-        </section>
-        
+    },{
+        title:'작성 댓글수',
+        paramName:'comments'
+    }];
+    return (
+        <TableComp
+            header={header}
+            list={issues}
+            pager={pager}
+            pageClick={onClickPage}
+        />
     )
 }
 

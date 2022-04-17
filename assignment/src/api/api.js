@@ -15,7 +15,7 @@ const fetchRepository = async (keyword,page=1,per_page=10)=>{
         console.error(e);
     }
 }
-const selectIssues = async (owner,repo,page=1,per_page=10)=>{
+const fetchIssues = async (owner,repo,page=1,per_page=10)=>{
     try{
         const full_name = encodeURIComponent(`${owner}/${repo}`);
         return REQUEST(`search/issues?q=repo:${full_name}+type:issue&per_page=${per_page}&page=${page}`);
@@ -24,4 +24,4 @@ const selectIssues = async (owner,repo,page=1,per_page=10)=>{
     }
 }
 
-export {fetchRepository,selectIssues};
+export {fetchRepository,fetchIssues};

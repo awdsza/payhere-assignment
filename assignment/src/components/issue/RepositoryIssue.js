@@ -1,5 +1,12 @@
+import Box from '@mui/material/Box';
+import Chip from '@mui/material/Chip';
+import Stack from '@mui/material/Stack';
+
+
 import React,{useState,useEffect} from 'react';
 import {getSelectedRepo,deleteSelectedRepo} from '../../storage/storage';
+
+
 
 import IssueList from './IssueList';
 
@@ -38,15 +45,20 @@ function RepositoryIssue(){
         <>
         {
             selectRepoList.length === 0 ? <p>등록된 Repository가 없습니다.</p> :
-            <ul>
+            <Box sx={{ width: '100%' }}>
+                <Stack  direction='row' spacing={2}>
                 {
                     selectRepoList.map( 
-                        ( {id,name:repo_name,full_name} ) =>  ( <li key={id} onClick={()=>selectedRepoClick(full_name)}>
-                            {repo_name}
-                            <button onClick={()=>selectedRepoDelete(id)}>삭제</button></li> )
+                        ( {id,name:repo_name,full_name} ) =>  ( 
+                            <Chip key={id} 
+                            label={repo_name} 
+                            onClick={()=>selectedRepoClick(full_name)}
+                            onDelete={()=>selectedRepoDelete(id)}
+                            /> )
                     )
                 }
-            </ul>
+                </Stack>
+            </Box>
 
         }
         <IssueList
