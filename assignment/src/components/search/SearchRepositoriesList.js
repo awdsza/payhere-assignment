@@ -42,10 +42,7 @@ function SearchRepositoriesList({repositories,pager,onClickPage}){
           type:'button',
           props:{
                 text:'추가',
-                onClick:({item})=>{
-                    addRepo(item);
-
-                }
+                onClick:(item)=>addRepo(item)
           }
         }
       ];
