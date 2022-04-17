@@ -1,14 +1,15 @@
 import React from "react";
+import TableComp from '../common/TableComp';
 import {setSelectedRepo,countSelectedRepo,getSelectedRepo} from '../../storage/storage.js';
 import {ADD_REPOSITORY_LIMIT} from '../../utils/constants.js';
 import {ADD_REPOSITORY_LIMIT_WARN,ALERT_DUPLICATE_ADD_REPO,ALERT_ADD_REPO} from '../../utils/keywords.js';
 
-import Pager from '../common/Pager';
+// import Pager from '../common/Pager';
 
 function SearchRepositoriesList({repositories,pager,onClickPage}){
     
     
-    const addRepoClick=repo=>{
+    const addRepo=repo=>{
             if(countSelectedRepo() === ADD_REPOSITORY_LIMIT){
                 alert(ADD_REPOSITORY_LIMIT_WARN);
                 return;
@@ -24,25 +25,39 @@ function SearchRepositoriesList({repositories,pager,onClickPage}){
             setSelectedRepo(selectedRepo);
             alert(ALERT_ADD_REPO);
     }
-
-    return (
-        <section>
-        {repositories.length === 0 
-        ? <span>검색된 결과가 없습니다</span>
-        :
-        <ul>
-            {
-                repositories.map( ({name,full_name,id}) => 
-                <li key={id}>{name} | {full_name}<button onClick={()=>addRepoClick({id,name,full_name})}>추가</button></li> 
-                )
-            }
-        </ul>
+    const header = [
+        {
+          title:'유저명',
+          paramName:'login'
+        },{
+            title:'저장소명',
+            paramName:'name'
         }
-        <Pager
-            pager={pager}
-            pageClick={onClickPage}
-        />
-        </section>
+        ,{
+          title:'github 경로',
+          paramName:'html_url'
+        }
+        ,{
+          title:'저장소 추가',
+          type:'button',
+          props:{
+                text:'추가',
+                onClick:({item})=>{
+                    addRepo(item);
+
+                }
+          }
+        }
+      ];
+    return (
+        <>
+        <TableComp
+                header={header}
+                list={repositories}
+                pager={pager}
+                pageClick={onClickPage}
+                />
+        </>
     )
 }
 

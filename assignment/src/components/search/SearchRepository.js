@@ -1,49 +1,62 @@
 import React, {useState} from 'react';
-import {searchRepository} from '../../api/api.js';
+import {fetchRepository} from '../../api/api.js';
+import { TextField } from "@mui/material";
 import SearchRepositoriesList from './SearchRepositoriesList.js';
-
+import Sample from '../../sample.json';
 function SearchRepository(){
     const [repositories,setRepositories] = useState([]);
-    const [pager, setPager]=useState({});
+    const [pager, setPager]=useState({
+        count:0,
+        page:0,
+        rowsPerPage:10
+    });
     const [keyword,setKeyword]=useState('');
     const inputTextId = 'search__repositories';
     
     /* 디바운싱 적용 */    
     let onInputTimeout;
+    const searchRepository = async (value,page=0,rowsPerPage=10)=>{
+        if(!value){
+            setRepositories([]);
+            setPager({
+                count:0,
+                page:0,
+                rowsPerPage
+            });
+        }
+        setKeyword(value);
+        const {items,total_count} = await fetchRepository(value,page+1,rowsPerPage);
+        // const {items,total_count} = Sample;
+        setRepositories(items.map(({id,owner,full_name,html_url,name})=>{
+            return {id,'login':owner.login,full_name,html_url,name}
+        }));
+        setPager({
+            count:total_count,
+            page,
+            rowsPerPage
+        });
+    };
     const onKeywordInput = ({target})=>{
         clearTimeout(onInputTimeout);
-        onInputTimeout=setTimeout( async ()=>{
-            
+        onInputTimeout=setTimeout( ()=>{
             const {value} = target;
-            if(!value){
-                setRepositories([]);
-                setPager({
-                    total_count:0,
-                    currentPage:1
-                });
-            }
-            setKeyword(value);
-            const {items,total_count} = await searchRepository(value);
-            setRepositories(items);
-            setPager({
-                total_count,
-                currentPage:1
-            });
-        },500)
+            searchRepository(value,0,pager.rowsPerPage)
+            
+        },800)
     }
-    const onClickPage = async currentPage=>{
-        const {items,total_count} = await searchRepository(keyword,currentPage);
-        setRepositories(items);
-        setPager({
-            total_count,
-            currentPage
-        });
-
+    const onClickPage = async (currentPage,rowsPerPage)=>{
+        searchRepository(keyword,currentPage,rowsPerPage);
     }
     return (
         <>
-            <label htmlFor={inputTextId}>저장소 검색 : </label> 
-            <input type='text' id={inputTextId} onInput={onKeywordInput} placeholder='저장소를 입력해주세요.'/>
+            <TextField
+                id={inputTextId}
+                label="저장소 검색"
+                type="search"
+                variant="standard"
+                onInput={onKeywordInput}
+                placeholder='저장소를 입력해주세요.'
+            />
             <SearchRepositoriesList 
                 repositories={repositories}
                 pager={pager}

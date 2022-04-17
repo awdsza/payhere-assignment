@@ -8,7 +8,7 @@ const REQUEST = async (END_POINT,options)=>{
     return await response.json();
 }
 
-const searchRepository = async (keyword,page=1,per_page=10)=>{
+const fetchRepository = async (keyword,page=1,per_page=10)=>{
     try{
         return REQUEST(`search/repositories?q=${encodeURIComponent(keyword)}&page=${page}&per_page=${per_page}`);
     }catch(e){
@@ -24,4 +24,4 @@ const selectIssues = async (owner,repo,page=1,per_page=10)=>{
     }
 }
 
-export {searchRepository,selectIssues};
+export {fetchRepository,selectIssues};
