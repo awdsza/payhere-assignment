@@ -3,7 +3,6 @@ import {fetchIssues} from '../../api/api.js';
 
 import TableComp from '../common/TableComp';
 
-import IssueSample from '../../jsons/IssueSample.json';
 
 function IssueList({owner,repo}){
     const [issues,setIssues]=useState([]);
@@ -15,7 +14,6 @@ function IssueList({owner,repo}){
         
         if(owner && repo){
             const {items,total_count} = await fetchIssues(owner,repo,page+1,rowsPerPage);
-            // const {items,total_count} = IssueSample;
             setIssues(items.map((item)=>{return {
                     ...item,
                     login:item.user.login,

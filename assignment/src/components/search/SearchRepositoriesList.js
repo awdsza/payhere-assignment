@@ -4,8 +4,6 @@ import {setSelectedRepo,countSelectedRepo,getSelectedRepo} from '../../storage/s
 import {ADD_REPOSITORY_LIMIT} from '../../utils/constants.js';
 import {ADD_REPOSITORY_LIMIT_WARN,ALERT_DUPLICATE_ADD_REPO,ALERT_ADD_REPO} from '../../utils/keywords.js';
 
-// import Pager from '../common/Pager';
-
 function SearchRepositoriesList({repositories,pager,onClickPage}){
     
     

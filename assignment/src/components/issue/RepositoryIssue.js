@@ -1,4 +1,3 @@
-import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
