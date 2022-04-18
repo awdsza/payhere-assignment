@@ -26,6 +26,14 @@ function IssueList({owner,repo}){
                 count:total_count
             });
             setSearchParam({owner,repo});
+        }else{
+            setIssues([]);
+        setPager({
+            page:0,
+            rowsPerPage:10,
+            count:1
+        });
+        setSearchParam({owner:'',repo:''});
         }
     };
 
