@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React,{useState,useEffect} from 'react';
 
 import Table from '@mui/material/Table';
 import TableHead from '@mui/material/TableHead';
@@ -13,10 +13,10 @@ import { Button } from "@mui/material";
 import Link from '@mui/material/Link';
 
 export default function TableComp({header=[],list=[] ,pager={ count:1, page:1, rowsPerPage:10},pageClick}) {
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const [count,setCount]=React.useState(1);
-  React.useEffect(()=>{
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [count,setCount]=useState(1);
+  useEffect(()=>{
     if(pager.count){
       setCount(pager.count);
       setPage(pager.page);
