@@ -40,7 +40,12 @@ function RepositoryIssue(){
     }
     const selectedRepoDelete = id=>{
         deleteSelectedRepo(id);
-        setSelectRepoList(getSelectedRepo());
+        const _selectRepoList = getSelectedRepo(); 
+        const [owner,repo] =  (_selectRepoList.length === 0 ? '/':_selectRepoList[0]['full_name'] ).split('/');
+        setSelectRepoList(_selectRepoList);
+        setRepoInfo({
+            owner,repo,selectedIndex:0
+        })
     }
     const ListItem = styled('li')(({ theme }) => ({
         margin: theme.spacing(0.5),
