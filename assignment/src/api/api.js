@@ -1,10 +1,11 @@
+import { ERROR_FETCH } from "../utils/keywords";
 const BASE_URL = 'https://api.github.com';
 
 const REQUEST = async (END_POINT,options)=>{
     
     const response = await fetch(`${BASE_URL}/${END_POINT}`,options);
     if( ( !response.ok ) || response.status >= 400 ){
-        throw new Error('API 서버에 문제가 생겼습니다');
+        throw new Error(ERROR_FETCH);
     }
     return await response.json();
 }
