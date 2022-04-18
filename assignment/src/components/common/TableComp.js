@@ -78,7 +78,7 @@ export default function TableComp({header=[],list=[] ,pager={ count:1, page:1, r
           <TableRow>
             <TablePagination
               rowsPerPageOptions={[10, 20, 30]}
-              colSpan={3}
+              colSpan={header.length}
               count={count}
               rowsPerPage={rowsPerPage}
               page={page}

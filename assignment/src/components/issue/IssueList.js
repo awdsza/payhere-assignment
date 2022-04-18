@@ -7,38 +7,40 @@ import IssueSample from '../../jsons/IssueSample.json';
 
 function IssueList({owner,repo}){
     const [issues,setIssues]=useState([]);
-    const [pager,setPager]=useState({
-        count:0,
-        page:0,
-        rowsPerPage:10
-    });
-    const [searchParam,setSearchParam]=useState({});
+    const [pager,setPager]=useState({ count:0, page:0, rowsPerPage:10});
+    const [searchParam,setSearchParam]=useState({owner,repo});
     
     
     const searchIssues = async (owner,repo,page=0,rowsPerPage=10)=>{
-        const {items,total_count} = await fetchIssues(owner,repo,page+1,rowsPerPage);
-        // const {items,total_count} = IssueSample;
+        
+        if(owner && repo){
+            const {items,total_count} = await fetchIssues(owner,repo,page+1,rowsPerPage);
+            // const {items,total_count} = IssueSample;
             setIssues(items.map((item)=>{return {
                     ...item,
-                    login:item.user.login
+                    login:item.user.login,
+                    repo:repo
                 };
             }));
             setPager({
-                count:total_count,
                 page,
-                rowsPerPage
+                rowsPerPage,
+                count:total_count
             });
+            setSearchParam({owner,repo});
+        }
     };
 
     useEffect( () => {
-        if(owner && repo){
-            setSearchParam({owner,repo});
-            searchIssues(owner,repo,pager.page,pager.rowsPerPage);
-        }
+        setPager({
+            page:0,
+            rowsPerPage:10
+        });
+        searchIssues(owner,repo,0,10);
         return ()=>{
         }
-    }, [owner,repo,pager] );
-
+    }, [owner,repo] );
+    
     const onClickPage = async (currentPage,rowsPerPage)=>{
         const {owner,repo} = searchParam;
         searchIssues(owner,repo,currentPage,rowsPerPage)
@@ -48,6 +50,9 @@ function IssueList({owner,repo}){
     {
         title:'Issue 번호',
         paramName:'number'
+    },{
+        title:'Repository명',
+        paramName:'repo'
     },{
         title:'제목',
         paramName:'title'
