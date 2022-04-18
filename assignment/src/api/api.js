@@ -1,7 +1,7 @@
 const BASE_URL = 'https://api.github.com';
 
 const REQUEST = async (END_POINT,options)=>{
-    options = Object.assign({'headers':{'Authorization':'token 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'}} ,options);
+    
     const response = await fetch(`${BASE_URL}/${END_POINT}`,options);
     if( ( !response.ok ) || response.status >= 400 ){
         throw new Error('API 서버에 문제가 생겼습니다');

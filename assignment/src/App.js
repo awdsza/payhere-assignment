@@ -42,18 +42,6 @@ function CurrentRoute() {
 function App() {
   
   return (
-    // <div className="App">
-    //  <ul>
-    //     <li>
-    //       <Link to="/">검색</Link>
-    //     </li>
-    //     <li>
-    //       <Link to="/issue">issue관리</Link>
-    //     </li>
-    //   </ul>
-    //   <Route path="/" exact={true}  component={SearchRepository} />
-    //   <Route path="/issue" component={RepositoryIssue} />
-    // </div>
     <Router>
       <Box sx={{ width: '100%' }}>
         <CustomTabs tabData={tabList}/>
